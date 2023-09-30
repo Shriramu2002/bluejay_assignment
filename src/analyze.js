@@ -1,6 +1,7 @@
 import fs, { read } from 'fs';
 import csv from 'csv-parser';
-import { freetimeconst, shifttimeconst, consConst } from './utits';
+import { freetimeconst, shifttimeconst, consConst } from './utits.js';
+//hello
 
 const results = [];
 const const1 = [];
@@ -10,7 +11,6 @@ const const3 = [];
 function analyze()
 {
     const total_records = results.length;
-    console.log(total_records);
     
     for(let i=0; i<total_records; )
     {
@@ -106,14 +106,26 @@ function analyze()
 
 }
 
+function formatAndAlignText(name, pos) {
+    const maxLength = 100; // Adjust as needed to set the desired total width
+
+    const namePadding = maxLength - name.length;
+
+    const paddedName = name + ' '.repeat(namePadding);
+
+    console.log(`${paddedName}${pos}`);
+}
+
 function printResults(){
+
+    console.log(`\n${'*'.repeat(50)}Analytics${'*'.repeat(48)}\n`);
 
     if(const1)
     {
         console.log(`Workers who have worked for seven consecutive days:`);
         for(const obj of const1)
         {
-            console.log(`"${obj['Name']}"   --${obj['Position']}`)
+            formatAndAlignText(obj['Name'], obj['Position']);
         }
     }
     else{
@@ -126,7 +138,7 @@ function printResults(){
         console.log(`Workers who have taken less than 10 hours between shifts but greater than 1 hour`);
         for(const obj of const2)
         {
-            console.log(`"${obj['Name']}"   --${obj['Position']}`)
+            formatAndAlignText(obj['Name'], obj['Position']);
         }
     }
     else{
@@ -139,19 +151,19 @@ function printResults(){
         console.log(`Workers who have worked for more than 14 hours in a shift`);
         for(let obj of const3)
         {
-            console.log(`"${obj['Name']}"   --${obj['Position']}`)
+            formatAndAlignText(obj['Name'], obj['Position']);
         }
     }
     else{
         console.log("There are no workers who have worked for more than 14 hours in a shift");
     }
-    console.log('\n');
+    console.log(`\n${'*'.repeat(50)}End${'*'.repeat(54)}\n`);
 
 }
 
 export function main(argv){
 
-    const CSV_PATH = new URL(`../csvFiles/${argv}`, import.meta.url).pathname;
+    const CSV_PATH = new URL(`../csvFiles/Assignment_Timecard.csv`, import.meta.url).pathname;
 
     const stream = fs.createReadStream(CSV_PATH);
 
@@ -161,7 +173,6 @@ export function main(argv){
     });
 
     const reader = stream.pipe(csv());
-    console.log("hello");
     reader.on('data', (row) => {
         results.push(row);
     });
@@ -172,6 +183,8 @@ export function main(argv){
     });
 
 }
+
+
 
 
   

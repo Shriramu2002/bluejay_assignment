@@ -1,14 +1,26 @@
 # Use the Alpine Linux base image
 FROM node:18.4.0-alpine
 
+USER node
+
 # Create a directory for your application and set it as the working directory
-WORKDIR /app
+WORKDIR /home/node/app
 
-# Mount a volume from the host to /app/data in the container
-VOLUME /app/data
+COPY package.json ./
 
-# Expose port 80
-EXPOSE 80
+RUN npm install
+
+USER root
+
+COPY . .
+
+USER root
+
+RUN chmod +x index.js
+
+RUN npm link
+
+USER node
 
 # Start your application (replace this with your actual application command)
 CMD ["/bin/sh"]

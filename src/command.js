@@ -1,8 +1,9 @@
 import yargs from 'yargs'
-import { main } from './analyze'
+import { hideBin } from 'yargs/helpers'
+import { main } from './analyze.js'
 
 yargs(hideBin(process.argv))
-  .command('new <file>', 'create a new note', yargs => {
+  .command('new <file>', 'Analyze the csv file', yargs => {
     return yargs.positional('file', {
       describe: 'The csv file in the csvFiles directory to analyze',
       type: 'string'
