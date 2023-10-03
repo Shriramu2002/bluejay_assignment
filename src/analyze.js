@@ -163,7 +163,7 @@ function printResults(){
 
 export function main(argv){
 
-    const CSV_PATH = new URL(`../csvFiles/Assignment_Timecard.csv`, import.meta.url).pathname;
+    const CSV_PATH = new URL(`../csvFiles/${argv}`, import.meta.url).pathname;
 
     const stream = fs.createReadStream(CSV_PATH);
 
